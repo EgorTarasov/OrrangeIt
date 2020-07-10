@@ -1,0 +1,240 @@
+{% extends 'base.html' %}
+{% block content %}
+    {% load static %}
+    <div class="container">
+        <div class="card m-3">
+            <div class="card-header">
+                <h5 class="card-title display-4">
+                    {{ event.event_name }}
+                </h5>
+                <h6 class="card-subtitle mb-2 text-muted text-capitalize">
+                    Creator: {{ event.event_author.first_name }}</h6>
+                <h6 class="card-subtitle mb-2 text-muted text-capitalize">
+                    Followers: {{ participants|length }}</h6>
+
+                <div class="form-row align-items-center">
+                    <div class="col-7 text-light mr-3 mb-3">
+                        {% for tag in event.event_tags.all %}
+                            <a href="{% url 'search_tags' tag_id=tag.id %}">
+                                <span class="badge badge-pill badge-warning ght tag">{{ tag.tag }}</span></a>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="card-img card-event-div-img">
+                    {% if event.image %}
+                        <img src="{{ event.image.url }}"
+                             class="bd-placeholder-img card-img-top">
+                    {% else %}
+                        <img>
+                    {% endif %}
+
+                </div>
+
+                <div class="row margin-top">
+                    <div class="col-3">
+                        <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist"
+                             aria-orientation="vertical">
+                            <a class="nav-link active" id="v-pills-home-tab" data-toggle="pill"
+                               href="#v-pills-home" role="tab" aria-controls="v-pills-home"
+                               aria-selected="true">Info</a>
+                            <a class="nav-link" id="v-pills-profile-tab" data-toggle="pill"
+                               href="#v-pills-profile" role="tab" aria-controls="v-pills-profile"
+                               aria-selected="false">Date and Place</a>
+                            <a class="nav-link" id="v-pills-messages-tab" data-toggle="pill"
+                               href="#v-pills-messages" role="tab" aria-controls="v-pills-messages"
+                               aria-selected="false">Participants</a>
+                            <a class="nav-link" id="v-pills-settings-tab" data-toggle="pill"
+                               href="#v-pills-settings" role="tab" aria-controls="v-pills-settings"
+                               aria-selected="false">Share</a>
+                            <a class="nav-link" id="v-pills-settings-tab" data-toggle="pill"
+                               href="#v-pills-gallery" role="tab" aria-controls="v-pills-settings"
+                               aria-selected="false">Gallery</a>
+                            {% if request.user.is_authenticated %}
+                                {% if request.user in event.event_participants.all %}
+                                    <a href="{% url 'follow_unfollow' event_id=event.id action_type=0 %}"
+                                       class="btn btn-primary btn-lg btn-block mt-5"
+                                       style="background-color: #fca903; color:#252122"> Unfollow </a>
+                                {% else %}
+                                    <a href="{% url 'follow_unfollow' event_id=event.id action_type=1 %}"
+                                       class="btn btn-primary btn-lg btn-block mt-5"
+                                       style="background-color: #fca903; color:#252122"> Subscribe </a>
+                                {% endif %}
+                            {% else %}
+                                <p class="btn btn-primary btn-lg btn-block mt-5 disabled"
+                                   style="background-color: #fca903; color:#252122"> Log in to subscribe </p>
+                            {% endif %}
+
+
+                        </div>
+                        {% if request.user == event.event_author %}
+                            <a href="{% url 'event_edit_page' event_id=event.id %}"
+                               class="btn btn-primary btn-lg btn-block mt-5"
+                               style="background-color: #fca903; color:#252122"> Edit </a>
+                            <a href="{% url 'delete_event' pk=event.id %}"
+                               class="btn btn-primary btn-lg btn-block mt-5"
+                               style="background-color: #fca903; color:#252122"> Delete Event </a>
+
+                        {% endif %}
+                    </div>
+                    <div class="col-9 slide-card">
+                        <div class="tab-content" id="v-pills-tabContent">
+                            <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel"
+                                 aria-labelledby="v-pills-home-tab">
+
+
+                                {{ event.event_description|safe }}
+                                {% if event.event_people_needed != -1 %}
+                                    <p>People needed: {{ event.event_people_needed }}</p>
+                                {% endif %}
+                            </div>
+                            <div class="tab-pane fade" id="v-pills-profile" role="tabpanel"
+                                 aria-labelledby="v-pills-profile-tab">
+                                <div class="container">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <p>Starts {{ event.event_begin|date:'d.m.Y' }}
+                                                at {{ event.event_begin|time:'H:i' }}</p>
+                                            <p>Finishes {{ event.event_end|date:'d.m.Y' }}
+                                                at {{ event.event_end|time:'H:i' }}</p>
+                                            <p>Address: {{ event.event_address }}</p>
+                                        </div>
+                                        <div class="col-md-6 side-map">
+                                            <div id="map" style="width:100%; height:400px"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane fade" id="v-pills-messages" role="tabpanel"
+                                 aria-labelledby="v-pills-messages-tab">
+                                <h4><span class="font-weight-bold font-size-15 h4 radiusValue">
+                                    {{ participants|length }} </span>
+                                    {% if participants|length == 1 %}
+                                        participant:
+                                    {% else %}
+                                        participants:
+                                    {% endif %}
+                                </h4>
+                                {% for participant in participants %}
+                                    <p><a href="{% url 'user_page' username=participant.username %}">
+                                        {{ participant.first_name }}
+                                    </a></p>
+                                {% endfor %}
+                            </div>
+                            <div class="tab-pane fade" id="v-pills-settings" role="tabpanel"
+                                 aria-labelledby="v-pills-settings-tab">
+                                <div class="row">
+                                    <figure class="col-5 figure">
+                                        <div class="d-inline-block" id="output"></div>
+                                        <figcaption>OrrangeIt Event Link</figcaption>
+                                    </figure>
+                                    {% if event.telegram_chat != "" %}
+                                    <figure class="col-5 figure">
+                                        <div class="d-inline-block" id="tg_link_qr"></div>
+                                        <figcaption>Telegram Group</figcaption>
+                                    </figure>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="tab-pane fade" id="v-pills-gallery" role="tabpanel"
+                                 aria-labelledby="v-pills-settings-tab">
+                                {% if gallery %}
+                                    <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+                                        <ol class="carousel-indicators">
+                                            <li data-target="#carouselExampleIndicators" data-slide-to="0"
+                                                class="active"></li>
+                                            <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+                                            <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+                                        </ol>
+                                        <div class="carousel-inner">
+                                            {% for img in gallery %}
+                                                {% if forloop.counter == 1 %}
+                                                    <div class="carousel-item active ">
+                                                        <img src="{{ img.image.url }}" class="d-block w-100"
+                                                             alt="{{ img.image.name }}">
+                                                    </div>
+                                                {% else %}
+                                                    <div class="carousel-item" style="max-height: 100%">
+                                                        <img src="{{ img.image.url }}" class="d-block w-100"
+                                                             alt="{{ img.image.name }}">
+                                                    </div>
+                                                {% endif %}
+                                            {% endfor %}
+                                        </div>
+                                        <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button"
+                                           data-slide="prev">
+                                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                            <span class="sr-only">Previous</span>
+                                        </a>
+                                        <a class="carousel-control-next" href="#carouselExampleIndicators" role="button"
+                                           data-slide="next">
+                                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                            <span class="sr-only">Next</span>
+                                        </a>
+                                    </div>
+                                {% else %}
+                                    <img src="{{ event.image.url }}" class="bd-placeholder-img card-img-top"
+                                         alt="{{ event.image.name }}">
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="form-group">
+
+            {#            <textarea id="chat-log" class="form-control mt-3" rows="15" placeholder="Welcome to {{ event.event_name }} chat!#}
+            {#You can ask anything you want and talk to other participants. Have fun!"#}
+            {#                      style="background-color: #252122; color: #fca903"#}
+            {#                      readonly></textarea>#}
+            {#            <div class="input-group-prepend">#}
+            {#                {% if request.user.is_authenticated %}#}
+            {#                    <input class="form-control mt-3" placeholder="Hi everyone!"#}
+            {#                           id="chat-message-input" type="text" size="100"#}
+            {#                           style="background-color: #252122; color: #fca903"><br>#}
+            {#                    <input class="btn btn-primary mt-3" id="chat-message-submit" type="button" value="Send"#}
+            {#                           style="background-color: #fca903">#}
+            {#                {% else %}#}
+            {#                    <input class="form-control mt-3" placeholder="Log in to use chat" type="text" readonly>#}
+            {#                {% endif %}#}
+            {#            </div>#}
+            {#        </div>#}
+            {#        {{ event_id|json_script:"event_id" }}#}
+
+            <div class="card border-dark m-3">
+                <h5 class="card-header text-dark">Comments</h5>
+                <div class="card-body">
+                    {% if request.user.is_authenticated %}
+                        <form method="POST">
+                            {% csrf_token %}
+                            {{ form.as_p }}
+                            <input class="btn btn-primary" type="submit" value="Send comment"
+                                   style="background-color: #fca903">
+                        </form>
+                    {% else %}
+                        <h3> Log in to write comments</h3>
+                    {% endif %}
+                    {% for each in comments %}
+                        <br>
+                        <h5 class="card-title">{{ each.user.username }}</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">{{ each.date }}</h6>
+                        <p class="card-text">{{ each.text }}</p>
+                        <br>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        <script src="{% static 'js/qrcode.js' %}"></script>
+        <script src="https://api-maps.yandex.ru/2.1/?apikey=a660300e-6fe6-4d7c-8b96-2b87cedb35d6&lang=ru_RU"
+                type="text/javascript"></script>
+        <script src="{% static 'js/event_page.js' %}" address="{{ event.event_address }}"></script>
+        <script src="{% static 'js/qrcode.js' %}"></script>
+        <script src="{% static 'js/qrcode_generation.js' %}"
+                text="{{ request.build_absolute_uri }}"
+                tg_link="{{ event.telegram_chat }}"></script>
+    </div>
+{% endblock content %}

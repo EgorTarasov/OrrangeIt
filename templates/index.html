@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="utf-8">
+    <title>OrrangeIt</title>
+    <!-- favicon fix -->
+    <link rel="shortcut icon" href="#"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="{% static 'css/bootstrap.css' %}" rel="stylesheet" type="text/css" media="all"/>
+    <link href="{% static 'css/main.css' %}" rel="stylesheet" type="text/css" media="all"/>
+    <link rel="stylesheet" href="{% static 'css/bootstrap-dropdownhover.min.css' %}">
+    <link href="{% static 'css/flexslider.css' %}" rel="stylesheet" type="text/css" media="all"/>
+    <link href="{% static 'css/magnific-popup.css' %}" rel="stylesheet" type="text/css" media="all"/>
+    <link href="https://fonts.googleapis.com/css?family=Nunito:400,400i,600,700" rel="stylesheet">
+    <link href="{% static 'css/fonts.css' %}" rel="stylesheet" type="text/css" media="all"/>
+</head>
+<body>
+<div class="loader">
+    <div class="loader-inner">
+        <svg width="120" height="220" viewbox="0 0 100 100" class="loading-spinner" version="1.1"
+             xmlns="http://www.w3.org/2000/svg">
+            <circle class="spinner" cx="50" cy="50" r="21" fill="#ffffff" stroke-width="6"/>
+        </svg>
+    </div>
+</div>
+<div class="wrapper">
+    <header class="header default">
+        <div class="header-section">
+            <div class="container ">
+                <nav class="navbar navbar-expand-lg header-navbar ">
+                    <a class=" navbar-brand navbar-logo scroll" href="#wrapper">
+                        <p class="mb-0 logo-light">OrrangeIt</p>
+                        <p class="mb-0 logo-dark" style="color: #FF8C00">OrrangeIt</p>
+                        {#                        <img class="mb-0 logo-dark img-fluid" src="{% static 'assets/img/logo.png' %}" alt="">#}
+                    </a>
+                    <button class="navbar-toggler btn-navbar-toggler" type="button" data-toggle="collapse"
+                            data-target=".nav-menu" aria-expanded="true" aria-label="Toggle navigation"><span
+                            class="fa fa-bars"></span>
+                    </button>
+                    <div class="nav-menu collapse navbar-collapse navbar-collapse justify-content-end py-0 ">
+                        <ul class=" navbar-nav  header-navbar-nav">
+                            <li><a class="nav-link scroll" href="#signup">Sign up</a>
+                            </li>
+                            <li><a class="nav-link scroll" href="#about">About</a>
+                            </li>
+                            <li><a class="nav-link scroll" href="#gallery">Gallery</a>
+                            </li>
+                        </ul>
+                    </div>
+                </nav>
+            </div>
+        </div>
+    </header>
+    <section class=" jarallax gradient-overlay gradient-overlay-orange">
+        <img class="bg-image" src="{% static 'assets/img/map.png' %}" alt="">
+        <div id="signup" class="container z-index-2 position-relative spacer-double-md">
+            <div class="row justify-content-lg-between align-items-lg-center">
+                <div class="col-lg-5 mb-5 mb-lg-0">
+                    <h1 class="display-4  text-white mb-0">Register your profile in OrrangeIt</h1>
+                </div>
+                <div class="col-lg-6">
+                    <div class="bg-white rounded d-inline-block w-100">
+                        <ul class="nav nav-pills mb-0 mr-3 mt-3 ml-3" id="pills-tab" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link" id="pills-home-tab" data-toggle="pill" href="#pills-home"
+                                   role="tab" aria-controls="pills-home" aria-selected="false">Login</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link active" id="pills-profile-tab" data-toggle="pill"
+                                   href="#pills-profile"
+                                   role="tab" aria-controls="pills-profile" aria-selected="true">Registration</a>
+                            </li>
+                        </ul>
+                        <div class="tab-content" id="pills-tabContent">
+                            <div class="tab-pane fade p-4" id="pills-home" role="tabpanel"
+                                 aria-labelledby="pills-home-tab">
+                                <form method="post">
+                                    {% csrf_token %}
+                                    <ul>
+                                        {% if login_form.errors %}
+                                            {% for field in login_form %}
+                                                {% for error in field.errors %}
+                                                    <li>{{ error|escape }}</li>
+                                                {% endfor %}
+                                            {% endfor %}
+                                            {% for error in login_form.non_field_errors %}
+                                                <li>{{ error|escape }}</li>
+                                            {% endfor %}
+                                        {% endif %}
+                                        {% if login_errors|length > 0 %}
+                                            {% for each in login_errors %}
+                                                <li>{{ each|escape }}</li>
+                                            {% endfor %}
+                                        {% endif %}
+                                    </ul>
+                                    {% for field in login_form %}
+                                        <p>
+                                            {{ field }}
+                                        </p>
+                                    {% endfor %}
+                                    <button type="submit" name="log_in_button"
+                                            class="btn btn-primary btn-lg btn-block mb-3">
+                                        Log in
+                                    </button>
+                                    <p><a href="{{ 'password_reset' }}">Forgot your password?</a></p>
+                                </form>
+                            </div>
+                            <div class="tab-pane fade show active p-4" id="pills-profile" role="tabpanel"
+                                 aria-labelledby="pills-profile-tab">
+                                <form method="post">
+                                    {% csrf_token %}
+                                    <ul>
+                                        {% if form.errors %}
+                                            {% for field in form %}
+                                                {% for error in field.errors %}
+                                                    <li>{{ error|escape }}</li>
+                                                {% endfor %}
+                                            {% endfor %}
+                                            {% for error in form.non_field_errors %}
+                                                <li>{{ error|escape }}</li>
+                                            {% endfor %}
+                                        {% endif %}
+                                        {% if errors|length > 0 %}
+                                            {% for each in errors %}
+                                                <li>{{ each|escape }}</li>
+                                            {% endfor %}
+                                        {% endif %}
+                                    </ul>
+                                    {% for field in form %}
+                                        <p>
+                                            {{ field }}
+                                        </p>
+                                    {% endfor %}
+                                    <button type="submit" name="sign_up_button"
+                                            class="btn btn-primary btn-lg btn-block">Sign up
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section id="gallery" class="bg-secondary">
+        <div class="container spacer-double-sm position-relative">
+            <div class="svg-decoration-container ">
+                <div class="svg-decoration middle-left z-index-2 boundary " data-jarallax-element="50 0">
+                    <svg viewBox="0 0 200 200">
+                        <circle fill="#FF8C00" cx="100" cy="100" r="75"/>
+                    </svg>
+                </div>
+                <div class="svg-decoration bottom-right boundary z-index-2 " data-jarallax-element="-50 0">
+                    <svg viewBox="0 0 200 200">
+                        <circle fill="none" stroke="#FF8C00" stroke-width="35" stroke-miterlimit="10" cx="100" cy="100"
+                                r="75"/>
+                    </svg>
+                </div>
+            </div>
+            <div class="row align-items-center justify-content-between z-index-2 position-relative">
+                <div class="col-12 col-md-6 mb-5 mb-md-0">
+                    <div class="row">
+                        <div class="col-10 mr-n mt-5">
+                            <a href="{% static 'assets/img/gallery/events_screen.png' %}" class="popup-image">
+                                <img src="{% static 'assets/img/gallery/events_screen.png' %}"
+                                     class="img-fluid mb-3 rounded "
+                                     alt="">
+                            </a>
+                            <a href="{% static 'assets/img/slider.png' %}" class="popup-image">
+                                <img src="{% static 'assets/img/slider.png' %}" class="img-fluid rounded " alt="">
+                            </a>
+                        </div>
+                        <div class="col-10 ">
+                            <a href="{% static 'assets/img/interface.png' %}" class="popup-image">
+                                <img src="{% static 'assets/img/interface.png' %}" class="img-fluid rounded " alt="">
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-md-6 col-lg-5 ">
+
+                    <h1 class="mb-4">What is OrrangeIt?</h1>
+                    <p class="lead">
+                        OrrangeIt is a service where any user can arrange events free of charge. Well-known
+                    brands and ordinary people can both create activities, isn`t it great?</p>
+                    <p class="lead  mb-0"></p>
+
+                </div>
+            </div>
+        </div>
+        <div class="svg-decoration-container">
+            <div class="svg-decoration middle-left" data-jarallax-element="0 50">
+                <svg viewBox="0 0 200 200">
+                    <circle fill="none" stroke="#FF8C00" cx="100" cy="100" stroke="#FF8C00"
+                            stroke-width="10" stroke-miterlimit="10" r="75"/>
+                </svg>
+            </div>
+            <div class="svg-decoration bottom-right " data-jarallax-element="0 -50">
+                <svg viewBox="0 0 200 200">
+                    <circle fill="#FF8C00" cx="100" cy="100" r="75"/>
+                </svg>
+            </div>
+        </div>
+    </section>
+    <section id="about" class="o-hidden">
+        <div class="container spacer-double-sm">
+            <div class="row justify-content-center">
+                <div class="col-md-7">
+                    <div class="text-center ">
+                        <div class="mb-4">
+                            <blockquote class="mt-0 mb-0">
+                                <div class="mb-2">Made by
+                                </div>
+                            </blockquote>
+                        </div>
+                        <h4 class="mb-0">Syntax Parallelism</h4>
+                        <img class="img-fluid avatar-lg mt-3"
+                             src="{% static 'assets/img/syntax_parallelism' %}" alt="Syntax Parallelism logo">
+                        <div class="row justify-content-center">
+                            <div class="col-3 mr-5">
+                                <p class="mb-0"><a href="https://t.me/okh_lera"
+                                                        style="color: #FF7254">@okh_lera</a></p>
+                                <p class="mb-0"><a href="https://t.me/nervous_void"
+                                                   style="color: #FFA341">@nervous_void</a>
+                                </p>
+                            </div>
+                            <div class="row-3">
+                                <p class="mb-0"><a href="https://t.me/tarasov_egor"
+                                                   style="color: #60FF60">@tarasov_egor</a>
+                                </p>
+                                <p class="mb-0"><a href="https://t.me/snoudenrus"
+                                                   style="color: #7FBFFF">@SnoudeNRUS</a>
+                                </p>
+                                <p class="mb-0"><a href="https://t.me/fedorkozlov"
+                                                   style="color: #FF77EF">@fedorkozlov</a>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </section>
+    <footer class="bg-dark">
+        <div class="container p-5">
+            <div class="row justify-content-center ">
+                <div class="col-auto">
+                    <ul class="list-inline mb-2 mt-3">
+                        <li class="list-inline-item "><a class="social-icon" href="https://t.me/orrangeit_true"><span
+                                class="fab fa-telegram-plane"></span></a>
+                        </li>
+                        <li class="list-inline-item"><a class="social-icon " href="https://vk.com/orrangeit"><span
+                                class="fab fa-vk"></span></a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="row justify-content-center ">
+                <div class="col-auto">
+                    <p class="font-size-14 text-muted text-center mb-5">&copy; 2020 All Rights Reserved - OrrangeIt
+                        <br>A product of Syntax Parallelism</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+</div>
+
+<script src="{% static 'js/jquery-3.5.1.min.js' %}"></script>
+<script src="{% static 'js/bootstrap.min.js' %}"></script>
+<script src="{% static 'js/smooth-scroll.js' %}"></script>
+<script src="{% static 'js/jquery.countdown.min.js' %}"></script>
+<script src="{% static 'js/jquery.magnific-popup.min.js' %}"></script>
+<script src="{% static 'js/placeholders.min.js' %}"></script>
+<script src="{% static 'js/jarallax.min.js' %}"></script>
+<script src="{% static 'js/jarallax-element.min.js' %}"></script>
+<script src="{% static 'js/index.js' %}"></script>
+</body>
+</html>

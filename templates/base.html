@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    {% load static %}
+    <title>OrrangeIt</title>
+    <!--JQuery-->
+    <script src="{% static 'js/jquery-3.5.1.min.js' %}"></script>
+    <!-- Bootstrap 4 -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
+          integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+
+    <!-- Font Awesome -->
+    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"
+          integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+
+    <!-- Moment.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.23.0/moment.min.js"
+            integrity="sha256-VBLiveTKyUZMEzJd6z2mhfxIqz3ZATCuVMawPZGzIfA=" crossorigin="anonymous"></script>
+
+    <!-- Tempus Dominus Bootstrap 4 -->
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.1.2/css/tempusdominus-bootstrap-4.min.css"
+          integrity="sha256-XPTBwC3SBoWHSmKasAk01c08M6sIA5gF5+sRxqak2Qs=" crossorigin="anonymous"/>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.1.2/js/tempusdominus-bootstrap-4.min.js"
+            integrity="sha256-z0oKYg6xiLq3yJGsp/LsY9XykbweQlHl42jHv2XTBz4=" crossorigin="anonymous"></script>
+    <script src="{% static 'js/tinymce/tinymce.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/tinymce/custom.js' %}"></script>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+
+    <link rel="shortcut icon" href="{% static 'assets/img/orange_pin.png' %}" type="image/png">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+    <style>
+        /* Open Sans  */
+        @import url('https://fonts.googleapis.com/css?family=Open+Sans:300,400italic,400,600');
+        /* General */
+
+        .fa {
+            font-size: inherit;
+
+        }
+
+        /* Social Media */
+        .facebook {
+            background: #3280e7;
+        }
+
+        .facebook:hover {
+            background: #134fa0;
+        }
+
+        .twitter {
+            background: #32c8de;
+        }
+
+        .twitter:hover {
+            background: #188392;
+        }
+
+        .google-plus {
+            background: #f96f4a;
+        }
+
+        .google-plus:hover {
+            background: #eb6440;
+        }
+
+        .linkedin {
+            background: #729fda;
+        }
+
+        .linkedin:hover {
+            background: #3069b6;
+        }
+
+        .pinterest {
+            background: #ed5441;
+        }
+
+        .pinterest:hover {
+            background: #b72411;
+        }
+
+        .dropbox {
+            background: #32c8de;
+        }
+
+        .dropbox:hover {
+            background: #188392;
+        }
+
+        .bitcoin {
+            background: #f8a841;
+        }
+
+        .bitcoin:hover {
+            background: #cc7607;
+        }
+
+        .foursquare {
+            background: #22bed4;
+        }
+
+        .foursquare:hover {
+            background: #146f7c;
+        }
+
+        .flickr {
+            background: #ff61e7;
+        }
+
+        .flickr:hover {
+            background: #fa00d4;
+        }
+
+        .github {
+            background: #666666;
+        }
+
+        .github:hover {
+            background: #333333;
+        }
+
+        .instagram {
+            background: #d6917a;
+        }
+
+        .instagram:hover {
+            background: #b35637;
+        }
+
+        .skype {
+            background: #32c8de;
+        }
+
+        .skype:hover {
+            background: #188392;
+        }
+
+        .tumblr {
+            background: #84a1c8;
+        }
+
+        .tumblr:hover {
+            background: #476d9f;
+        }
+
+        .vimeo {
+            background: #32c8de;
+        }
+
+        .vimeo:hover {
+            background: #188392;
+        }
+
+        .dribbble {
+            background: #ff2edf;
+        }
+
+        .dribbble:hover {
+            background: #c700a9;
+        }
+
+        .youtube {
+            background: #ed5441;
+        }
+
+        .youtube:hover {
+            background: #b72411;
+        }
+
+        /* Resume */
+        .resume .r-sidebar {
+            width: 360px;
+            float: left;
+            padding: 40px 50px;
+            position: fixed;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+            height: 100%;
+            background: #f5f8fb;
+        }
+
+        .resume .r-sidebar .r-sidebar-item {
+            max-width: 280px;
+            margin: 0px auto;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .resume .r-sidebar .img {
+            float: left;
+            text-align: center;
+            width: 100px;
+        }
+
+        .resume .r-sidebar .img a img {
+            width: 80px;
+            height: 80px;
+            border-radius: 100px;
+        }
+
+        .resume .r-sidebar .name {
+            margin-left: 110px;
+        }
+
+        .resume .r-sidebar .name h3 {
+            font-size: 22px;
+            line-height: 37px;
+            font-weight: 400;
+            position: relative;
+            top: 6px;
+        }
+
+        .resume .r-sidebar .name small {
+            font-size: 13px;
+            line-height: 28px;
+            color: #999;
+        }
+
+        @media screen and (max-device-width: 767px) {
+            .resume .r-sidebar {
+                float: none;
+                position: relative;
+                width: 100% !important;
+                margin: 0px auto;
+                box-shadow: none;
+            }
+
+            .resume .r-sidebar .r-sidebar-item {
+                max-width: 220px;
+                margin: 0px auto;
+            }
+
+            .resume .r-sidebar .img {
+                float: left;
+                text-align: center;
+                width: 80px;
+            }
+
+            .resume .r-sidebar .img a img {
+                width: 60px;
+                height: 60px;
+                border-radius: 100px;
+            }
+
+            .resume .r-sidebar .name {
+                margin-left: 90px;
+            }
+
+            .resume .r-sidebar .name h3 {
+                font-size: 14px;
+                line-height: 22px;
+                font-weight: 600;
+            }
+        }
+
+        .resume .r-sidebar table {
+            max-width: 280px;
+            margin: 20px auto;
+        }
+
+        .resume .r-sidebar table tr th {
+            font-weight: 400;
+            color: #222;
+            text-align: right;
+            font-size: 13px;
+            padding: 7px 0px;
+        }
+
+        .resume .r-sidebar table tr td {
+            padding-left: 25px;
+            font-size: 13px;
+            color: #999;
+        }
+
+        .resume .r-sidebar .social {
+            text-align: center;
+        }
+
+        .resume .r-sidebar .social a {
+            display: inline-block;
+            width: 35px;
+            height: 35px;
+            line-height: 35px;
+            color: #fff;
+            border-radius: 100%;
+            margin: 0px 2px;
+        }
+
+        /* Main Block */
+        .resume .main-block {
+            margin-left: 360px;
+            padding: 45px;
+            min-height: 800px;
+        }
+
+        .resume .main-block hr {
+            border-top: 1px solid rgba(0, 0, 0, 0.15);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+            margin: 30px 0px;
+        }
+
+        @media screen and (max-device-width: 767px) {
+            .resume .main-block {
+                text-align: center;
+                margin-left: 0px;
+                position: relative;
+            }
+        }
+
+        .resume .main-block h3 {
+            font-size: 25px;
+            line-height: 40px;
+            color: #fff;
+            font-weight: 300;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+            padding-bottom: 10px;
+            margin-bottom: 10px;
+        }
+
+        @media screen and (max-width: 767px) {
+            .resume .main-block h3 {
+                font-size: 20px;
+                line-height: 35px;
+            }
+        }
+
+        .resume .main-block a,
+        .resume .main-block a:hover {
+            color: #fff;
+        }
+
+        .resume .main-block .objective-content p {
+            color: #fff;
+            line-height: 37px;
+            font-size: 22px;
+            font-weight: 300;
+        }
+
+        @media screen and (max-device-width: 767px) {
+            .resume .main-block .objective-content p {
+                line-height: 31px;
+                font-size: 16px;
+            }
+        }
+
+        .resume .main-block .skill span.big-circle {
+            width: 90px;
+            height: 90px;
+            border-radius: 100px;
+            text-align: center;
+            line-height: 90px;
+            background: rgba(0, 0, 0, 0.05);
+            display: inline-block;
+            position: relative;
+            margin: 10px 15px 0px 0px;
+            border: 2px solid #fff;
+            color: #fff;
+            font-size: 15px;
+            font-weight: 600;
+            box-shadow: inset 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .resume .main-block .skill span.small-circle {
+            width: 37px;
+            height: 37px;
+            line-height: 37px;
+            border-radius: 60px;
+            text-align: center;
+            display: inline-block;
+            color: #777;
+            font-size: 13px;
+            position: absolute;
+            top: -7px;
+            right: -7px;
+        }
+
+        /* Education */
+        .resume .main-block .education .education-item {
+            margin: 10px auto;
+        }
+
+        .resume .main-block .education .education-item h6 {
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.9);
+            font-weight: 400;
+        }
+
+        .resume .main-block .education .education-item h4 {
+            color: #fff;
+        }
+
+        .resume .main-block .education .education-item p {
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        @media screen and (max-device-width: 767px) {
+            .resume .main-block .education .education-item {
+                max-width: 260px;
+                margin-bottom: 20px;
+            }
+        }
+
+        /* Experience */
+        .resume .main-block .experience .experience-item {
+            margin: 10px auto;
+        }
+
+        .resume .main-block .experience h6 {
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.9);
+            font-weight: 400;
+        }
+
+        .resume .main-block .experience h4 {
+            color: #fff;
+        }
+
+        .resume .main-block .experience p {
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        @media screen and (max-device-width: 767px) {
+            .resume .main-block .experience .experience-item {
+                max-width: 260px;
+                margin-bottom: 20px;
+            }
+        }
+
+        .link-button {
+            text-decoration: none;
+        }
+
+        #event_type_picker {
+            cursor: pointer;
+            background: none !important;
+            border: none;
+            padding: 0 !important;
+            text-decoration: underline;
+            outline: none;
+        }
+
+        .top-image {
+            height: 30px;
+            width: 30px;
+            border-radius: 50%;
+        }
+        .field_input{
+            background-color: #f7f7f7; 
+            border: 2px solid #fca903;
+                
+        }
+        .tittle{ 
+            color: black;
+        }
+        .calendar{
+            color: black;
+        }
+        .input_field{
+            margin-top: 5%;
+        }
+        .example-1 .form-group{padding:1em;margin:1em}
+        .example-1 input[type=file]{outline:0;opacity:0;pointer-events:none;user-select:none}
+        .example-1 .label{width:120px;border:2px dashed grey;border-radius:5px;display:block;padding:1.2em;transition:border 300ms ease;cursor:pointer;text-align:center}
+        .example-1 .label i{display:block;font-size:42px;padding-bottom:16px}
+        .example-1 .label i,.example-1 .label .title{color:grey;transition:200ms color}
+        .example-1 .label:hover{border:2px solid #000}
+        .example-1 .label:hover i,.example-1 .label:hover .title{color:#000}
+        .custom_field{
+            width: 50px;
+        }
+        .map_col{ 
+            max-width: 50%;
+        }
+    </style>
+
+</head>
+<body>
+<header>
+    <nav class=" new-nav sticky-top navbar navbar-expand-lg">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="{% url 'feed_page' %}" style="color: #fca903">OrrangeIt</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent">
+                <img height="30px" src="{% static 'assets/svg/ellipsis.png' %}">
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto">
+                    {% if not user.is_authenticated %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'index' %}"> Register or Log In </a>
+                        </li>
+                    {% else %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'map_page' %}"> Create new event </a>
+                        </li>
+                    {% endif %}
+                </ul>
+                <div class="float-right">
+                    {% if request.user.is_authenticated %}
+
+                        <form class="form-inline my-2 my-lg-0 mr-auto">
+
+                            <div class=" mr-30">
+
+                                {% if user.user_avatar %}
+                                    <img src="{{ user.user_avatar.url }}" alt="" class="img-responsive top-image">
+                                {% else %}
+                                    <img src="{% static 'assets/svg/users.svg' %}" alt=""
+                                         class="img-responsive avatar-profile">
+                                {% endif %}
+                            </div>
+
+                            <p class="my-2 my-sm-0 mr-30"><a
+                                    href="{% url 'user_page' username=request.user.username %}">
+                                {{ request.user.username }}</a></p>
+                            <div class="btn-group" style="margin-left: 15px">
+                                <div type="button" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
+                                     aria-expanded="false">
+                                    <img height="30px" src="{% static 'assets/svg/gear.png' %}">
+                                </div>
+                                <div class="dropdown-menu dropdown-menu-right dropdown-menu-lg-right">
+                                    <a class="dropdown-item"
+                                       href="{% url 'user_page' username=request.user.username %}">Settings</a>
+
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item" href="{% url 'logout' %}">Log out</a>
+                                </div>
+                            </div>
+                        </form>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </nav>
+
+</header>
+
+<main id="main">
+    <div class="container-fluid content main p-0 m-0 mx-auto" style="margin-top: 7%">
+        {% block content %}
+        {% endblock %}
+    </div>
+</main>
+
+<footer class="footer">
+    <div class="container">
+        <div class="row justify-content-center ">
+            <div class="col-auto">
+                <ul class="list-inline">
+                    <li class="list-inline-item "><a href="https://t-do.ru/orrangeit"><span
+                            class="fa fa-telegram"></span></a>
+                    </li>
+                    <li class="list-inline-item"><a href="https://vk.com/orrangeit"><span
+                            class="fa fa-vk"></span></a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="row justify-content-center ">
+        <div class="col-auto">
+            <p class="font-size-14 text-dark text-center">&copy; 2020 All Rights Reserved - OrrangeIt
+                <br>A product of Syntax Parallelism</p>
+        </div>
+    </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+        crossorigin="anonymous"></script>
+
+{% if request.user.is_authenticated %}
+    <script src="{% static 'js/notifications.js' %}"></script>
+    <script src="{% static 'js/notify.min.js' %}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/push.js/0.0.11/push.min.js"></script>
+{% endif %}
+</body>
+</html>

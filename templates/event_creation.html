@@ -1,0 +1,183 @@
+{% extends 'base.html' %}
+{% block content %}
+    {% load static %}
+    <div class="container-fluid">
+        <div class="card m-3 mx-auto" style="background-color: white; width: 80%">
+            <div class="card-body text-light">
+                {% csrf_token %}
+                <h2 class="display-4 " style="color: #fca903">Event Creation</h2>
+                <form method="post" enctype="multipart/form-data" id="form">
+                    <ul>
+                        {% if form.errors %}
+                            {% for field in form %}
+                                {% for error in field.errors %}
+                                    <li>{{ error|escape }}</li>
+                                {% endfor %}
+                            {% endfor %}
+                            {% for error in form.non_field_errors %}
+                                <li>{{ error|escape }}</li>
+                            {% endfor %}
+                        {% endif %}
+                        {% if errors|length > 0 %}
+                            {% for each in errors %}
+                                <li>{{ each|escape }}</li>
+                            {% endfor %}
+                        {% endif %}
+                    </ul>
+                    {% csrf_token %}
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="input_field">
+                                <h4 style="color: black">Choose event name</h4>
+                                <div class="input-group mr-3 mb-3" style="width: 60%">
+                                    {{ form.event_name }}
+                                </div>
+                            </div>
+                            <div class="input_field">
+                                <h4 style="color: black">Choose event address</h4>
+                                <div class="">
+                                    <div class="col-7 text-dark mr-3 mb-3">
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <div class="input-group-text">📍</div>
+                                            </div>
+                                            {{ form.event_address }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="input_field">
+                                <h4 style="color: black">Expected number of people</h4>
+                                <div class="col-3 mr-3 mb-3">
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <div class="input-group-text">👤</div>
+                                        </div>
+                                        {{ form.event_people_needed }}
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </div>
+                        <div class="col">
+                            <h4 style="color: black">Or just click on map to choose location</h4>
+                            <div id="map" style="height: 80%; width: 90%"></div>
+
+
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-row col-7 align-items-start mt-5">
+                                <div class="mr-3 mb-3">
+                                    <div class="input-group">
+                                        <h4 style="color: black">Start date</h4>
+                                        {{ form.event_begin }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-row col-7 align-items-start mt-5" style="margin-top: 5%">
+                                <div class="mr-3 mb-3">
+                                    <div class="input-group">
+                                        <h4 style="color: black">End date</h4>
+                                        {{ form.event_end }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="display: none;">
+                        {{ form.telegram_group_link }}
+                    </div>
+
+                    <h4 style="color: black">Here you can type your tags</h4>
+
+
+                    <div class="input-group mr-3 mb-3" id="inputTags" style=" border: 2px solid #fca903; "></div>
+
+                    {{ form.event_tags }}
+                    <div class="row">
+                        <div class="col">
+                            <h4 style="color: black">Choose event cover</h4>
+                            <div class="example-1">
+                                <div class="form-group">
+                                    <label class="label">
+                                        <i class="material-icons">attach_file</i>
+                                        <span class="title">Attach file</span>
+                                        {{ form.image }}
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <h3 style="color: black">Upload more images of your event</h3>
+                            <div class="example-1">
+                                <div class="form-group">
+                                    <label class="label">
+                                        <i class="material-icons">attach_file</i>
+                                        <span class="title">Attach file</span>
+                                        {{ form.gallery_images }}
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    {{ form.event_description }}
+
+
+                    <div class="modal fade text-light" id="modalConfirm" tabindex="-1" role="dialog"
+                         aria-labelledby="modalConfirmLabel"
+                         aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content" style="background-color: #252122">
+                                <div class="modal-header" style="background-color: #fca903">
+                                    <h5 class="modal-title" style="color: #252122"
+                                        id="modalConfirmLabel">Posting Confirmation</h5>
+                                    <button type="button" class="close" data-dismiss="modal"
+                                            aria-label="Close">
+                                        <span aria-hidden="true" style="color: white">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    Please, doublecheck all the information before posting your event
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-outline-danger"
+                                            data-dismiss="modal" id="decline">Check
+                                    </button>
+                                    <button type="button" class="btn btn-primary col-sm-2"
+                                            style="background-color: #fca903; color: #252122" id="confirm">
+                                        Post
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <form method="post">
+                        <button type="submit" class="btn btn-primary btn-lg btn-block mt-3" data-toggle="modal"
+                                data-target="#modalConfirm" style="background-color: #fca903; color:#252122"
+                                id="submitForm">
+                            Confirm
+                        </button>
+                    </form>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+    <script src="{% static 'js/tagging.min.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'css/tag-basic-style.css' %}">
+    <script src="https://api-maps.yandex.ru/2.1/?apikey=a660300e-6fe6-4d7c-8b96-2b87cedb35d6&lang=ru_RU"
+            type="text/javascript"></script>
+
+    <script src="{% static 'js/event_creation_map.js' %}"></script>
+    <script src="{% static 'js/event_create_modal.js' %}" event_name={{ event.event_name }}></script>
+    <script src="{% static 'js/event_creation.js' %}"></script>
+
+{% endblock content %}

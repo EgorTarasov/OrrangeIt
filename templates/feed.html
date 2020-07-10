@@ -1,0 +1,187 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+    <main role="main">
+
+        <div class="container mt-30">
+            <div class="row">
+                <div class="col-6 mx-auto col-md-6 order-md-1">
+                    <img src="{% static 'assets/svg/orange.png' %}" class="img-fluid mb-3 mb-md-0" width="450"
+                         height="350"
+                         viewBox="0 0 1024 860" focusable="false" role="img">
+
+                </div>
+                <div class="col-md-6 order-md-2 text-center text-md-left pr-md-5">
+                    <h1 class="mb-3 bd-text-purple-bright">OrrangeIt</h1>
+                    <p class="lead">
+                        "We'll arrange it for you"
+                    </p>
+                    <p class="lead mb-4">
+                        You can create your own event or find an existing event that suits you. You can find events
+                        based on your preferences or just find those that are close to you. Have a good time !
+                    </p>
+
+                    <!-- <div class="row mx-n2">
+                      <div class="col-md px-2">
+                        <a href="/docs/4.4/getting-started/introduction/" class="btn btn-lg btn-bd-primary w-100 mb-3"></a>
+                      </div>
+                      <div class="col-md px-2">
+                        <a href="/docs/4.4/getting-started/download/" class="btn btn-lg btn-outline-secondary w-100 mb-3"></a>
+                      </div>
+                    </div> -->
+                </div>
+            </div>
+        </div>
+        </dic>
+
+
+        <div class="album py-5 bg-light">
+            <ul class="nav nav-pills mb-3 slide_changer" id="pills-tab" role="tablist">
+                <li class="nav-item">
+                    <a class="nav-link active" id="pills-home-tab" data-toggle="pill" href="#pills-home" role="tab"
+                       aria-controls="pills-home" aria-selected="true">List</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="pills-profile-tab" data-toggle="pill" href="#pills-profile" role="tab"
+                       aria-controls="pills-profile" aria-selected="false">Map</a>
+                </li>
+            </ul>
+            <div class="d-flex justify-content-center my-4">
+                <div class="w-50">
+                    <input type="range" class="custom-range" id="radius_slider" min="1000" max="40000">
+                </div>
+            </div>
+
+            <div class="tab-content" id="pills-tabContent">
+                <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
+                    <div class="container">
+                        <h3 class="text-center">
+                            <button class="btn btn-warning find_events">
+                                <span class="h3">Find!</span></button>
+                            {% if request.user.is_authenticated %}
+                                <button id="event_type_picker">all</button>
+                            {% else %}
+                                all
+                            {% endif %}
+                            events within
+                            <span class="font-weight-bold font-size-15 h3 radiusValue"></span>
+                            from you
+                        </h3>
+                        <hr>
+                        <div class="d-flex justify-content-center my-4">
+                            <div class="col-7 text-light mr-3 mb-3">
+                                {% for tag in tags %}
+                                    <a href="{% url 'search_tags' tag_id=tag.id %}">
+                                        <span class="badge badge-pill badge-warning ght tag">{{ tag.tag }}</span></a>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="card-columns">
+                            {% if events %}
+                                {% for event in events %}
+                                    <a href="{% url 'event_page' event_id=event.id %}" style="text-decoration: none;">
+                                        <div class="card text-white text-center m-3 br cardh">
+                                            <p class="event_address"
+                                               style="display: none;"> {{ event.event_address }} </p>
+                                            {% if event.event_people_needed > 0 %}
+                                                <div class="div-people br pa">
+                                                    <p style="display: inline-block; color: white;"
+                                                       class="bg-gray br pa"> {{ event.event_people_needed }} </p>
+                                                    <img src="{% static 'assets/svg/people.svg' %}" alt=""
+                                                         class="img-people">
+                                                </div>
+                                            {% endif %}
+
+                                            <img src="{{ event.image.url }}" class="img-fluid br-top"
+                                                 alt="{{ event.event_name }}">
+                                            <a href="{% url 'event_page' event_id=event.id %}"
+                                               style="text-decoration: none;">
+
+                                                <div class="mt-30">
+                                                    <div class="rounded d-inline-block pr-2 pl-2"
+                                                         style="color: orange; font-weight: bold;">
+                                                        <p>{{ event.event_begin.date }}</p>
+                                                    </div>
+                                                    <div class="" style="overflow: hidden;">
+                                                        <h3 class="rounded card-title font-weight-bold align-middle d-inline-block pr-2 pl-2 m-2 text-form f-30 f-20"
+                                                            style="font-weight: 1000; color: black;">
+                                                            {{ event.event_name }}</h3>
+                                                    </div>
+                                                </div>
+
+                                                <div class="card-footer position-relative z-index-3 br-bot"
+                                                     style="background-color: orange;">
+
+
+                                                    {% if request.user in event.event_participants.all %}
+                                                        <p style="display: none;" class="followStatus">Following</p>
+                                                        <p class="dis-b">followed</p>
+                                                        <img src="{% static 'assets/svg/tick.svg' %}" alt=""
+                                                             class="img-people">
+                                                    {% else %}
+                                                        <!-- <p style="display: none;" class="followStatus">Unfollowed</p>
+                                                           <p class="dis-b"><b>Status: </b>follow</p> -->
+                                                        <img src="{% static 'assets/svg/follow.svg' %}" alt=""
+                                                             class="img-people-2">
+                                                    {% endif %}
+                                                </div>
+                                                <!-- <div class="card-footer">
+                                            {% for tag in event.event_tags.all %}
+                                                <a href="{% url 'search_tags' tag_id=tag.id %}">
+                                                    <span class="badge badge-pill badge-warning ght tag">{{ tag.tag }}</span></a>
+                                            {% endfor %}
+                                        </div> -->
+                                        </div>
+                                    </a>
+                                {% endfor %}
+                            {% endif %}
+                        </div>
+                        <!--End card section-->
+                        <hr>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
+                    <h3 class="text-center">
+                        <button class="btn btn-warning find_events">
+                            <span class="h3">Show!</span></button>
+                        events within
+                        <span class="font-weight-bold font-size-15 h3 radiusValue"></span>
+                        from you
+                    </h3>
+                    <div class="container">
+
+                        <!--map-->
+                        <section class="jumbotron text-center p-0">
+                            <div class="mx-auto" id="map" style="width:100%; height:500px;"></div>
+                            <script src="https://api-maps.yandex.ru/2.1/?apikey=a660300e-6fe6-4d7c-8b96-2b87cedb35d6&lang=ru_RU"
+                                    type="text/javascript"></script>
+                        </section>
+                        <!-- <h5 class="text-center">The list of events</h5>
+                         <hr>
+                          <div class="row">
+                              <div class="col-md-4">
+                                  <div class="mb-3 card mcard">
+                                      <div class="row">
+                                      <div class="col-5">
+                                          <div class="mcard-img"></div>
+                                      </div>
+                                      <div class="col-7">
+                                          <h6 class="text-center">Название события</h6>
+                                      </div>
+                                  </div>
+                                  </div>
+                              </div>
+                          </div> -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="http://code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
+    <script src="{% static 'js/feed.js' %}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+            crossorigin="anonymous"></script>
+{% endblock content %}

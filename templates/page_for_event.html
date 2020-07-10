@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+        <div class="dropdown">
+                    <button class="btn btn-secondary dropdown-toggle btn-dropdown" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Искать по тегу
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        {% for tag in tags %}
+                            <a class="dropdown-item" href="{% url 'search_tags' tag_id=tag.id %}">{{ tag.tag }}</a>
+                        {% endfor %}
+                    </div>
+        </div>
+    <h3 class="text-center">Events in your city</h3>
+    <div class="card-group" >
+        <div class="card mb-3">
+            {% if events %}
+                {% for event in events %}
+                    <div class="card">
+                      <div class="row no-gutters">
+                        <div class="col-md-4">
+                           <img src="{{ event.image }}" class="card-img" alt="{{ event.event_author.username }}`s event">
+                        </div>
+                        <div class="col-md-8">
+                          <div class="card-body">
+                            <h5 class="card-title">{{ event.event_name }}</h5>
+                            <p class="card-text">
+                                            {% if event.event_date == event.event_date_end %}
+                                                <span class="text-secondary">{{ event.event_date|date:"d.m.Y" }}
+
+                                        ({{ event.event_time|time:'H:i' }} — {{ event.event_time_end|time:'H:i' }})</span>
+                                {% else %}
+                                <span class="text-secondary">{{ event.event_date|date:"d.m.Y" }} — {{ event.event_date_end|date:"d.m.Y" }}</span>
+                                {% endif %}
+                            </p>
+                            <p class="card-text">
+                                <span class="text-secondary">{{ event.event_author.first_name }}</span>
+                            </p>
+                              <div class="container">
+                                <div class="row">
+                                    <div class="col-md-6"><a href="{% url 'event_page' event_id=event.id %}"
+                                                             class="btn btn-outline-warning">More info</a>
+                                    </div>
+                                    <div class="col-md-6">
+                                        {% if not event.event_people_needed == -1 %}
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <img src="{% static 'assets/svg/people.png' %}"
+                                                     height="30px">
+                                            </div>
+                                            <div class="col-md-6">
+                                                <p style="margin:auto">{{ event.event_people_needed }}</p>
+                                            </div>
+                                        </div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      </div>
+                    </div>
+            {% endfor %}
+            {% endif %}
+            </div>
+{% endblock content %}

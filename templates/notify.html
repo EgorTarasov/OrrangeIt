@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<main>
+<div style="height:80%">
+{% for notify in notifications %}
+    <div class="card w-75" style="color:black;">
+      <div class="card-body">
+        <h5 class="card-title">{{ notify.event_notify_name }}</h5>
+        {% if notify.day_time == 7 %}
+            <p class="card-text">Мероприятие начнется через {{ notify.day_time }} дней</p>
+        {% else %}
+            <p class="card-text">Мероприятие начнется через {{ notify.day_time }} день</p>
+        {% endif %}
+        <a href="{% url 'notify_read' notify_id=notify.id %}" class="btn btn-primary">Прочитать</a>
+      </div>
+    </div>
+{% endfor %}
+</div>
+</main>
+{% endblock content %}

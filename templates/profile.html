@@ -1,0 +1,197 @@
+{% extends 'base.html' %}
+{% block content %}
+    {% load static %}
+
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+    <!-- Resume Starts -->
+    <div class="resume">
+        {% if request.user == user %}
+            <!-- Sidebar -->
+            <div class="r-sidebar">
+                <div class="r-sidebar-item">
+                    <!-- Sidebar Image -->
+                    <div class="img">
+                        {% if user.user_avatar %}
+                            <img src="{{ user.user_avatar.url }}" alt="" class="img-responsive avatar-profile">
+                        {% else %}
+                            <img src="{% static 'assets/svg/users.svg' %}" alt="" class="img-responsive avatar-profile">
+                        {% endif %}
+                    </div>
+                    <!-- Name -->
+                    <div class="name">
+                        <small>{{ user.username }}</small>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+
+
+                <div class="r-detail">
+                    <div class="non-changeable">
+                        <table>
+                            <tr>
+                                <th>Name</th>
+                                <td><input class="form-control mt-3 changable" type="text"
+                                           value="{{ user.first_name|title }}"
+                                           readonly></td>
+                            </tr>
+                            <tr>
+                                <th>Email</th>
+                                <td><input class="form-control mt-3 changable" type="text" value="{{ user.email }}"
+                                           readonly>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>Password</th>
+                                <td><a type="button" class="btn mt-3 btn-outline-warning"
+                                       href="{{ '../../password_reset' }}">Change password</a>
+                                </td>
+                            </tr>
+                        </table>
+                        <button type="button" class="btn btn-outline-success change-profile-info">Edit profile</button>
+                    </div>
+
+                    <div class="changeable">
+                        <form method="post" enctype="multipart/form-data"
+                              action="{% url 'user_page' username=user.username %}">
+                            {% csrf_token %}
+                            <table>
+                                {% for field in edit_info %}
+                                    <tr>
+                                        <th>{{ field.label }}</th>
+                                        <td>{{ field }}</td>
+                                    </tr>
+                                {% endfor %}
+                                <tr>
+                                    <th>Password</th>
+                                    <td><a type="button" class="btn mt-3 btn-outline-warning"
+                                           href="{{ '../../password_reset' }}">Change password</a>
+                                    </td>
+                                </tr>
+                            </table>
+                            <button type="submit" class="btn btn-success">Confirm changes</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+        <!-- Main -->
+        <div class="main-block" style="background-color: #fe833a; margin-top: -24px;">
+            <div class="objective">
+                <h3>Welcome</h3>
+                <div class="objective-content">
+                    <p>Hi 👋 This is your personal account, in addition to the basic functions, here you can track your
+                        statistics, good luck 😉 </p>
+                </div>
+            </div>
+            <hr>
+            {#        <div class="skill">#}
+            {#            <h3>Your visits</h3>#}
+            {#            <!-- Skill Content -->#}
+            {#            <div class="skill-content">#}
+            {#                <span class="big-circle">sport<span class="small-circle bg-white">0</span></span>#}
+            {#                <span class="big-circle">art<span class="small-circle bg-white">0</span></span>#}
+            {#                <span class="big-circle">science<span class="small-circle bg-white">0</span></span>#}
+            {#            </div>#}
+            {#        </div>#}
+            {#        <hr>#}
+            {% if not events|length > 0 %}
+                <h3>Nothing here yet ;(</h3>
+            {% else %}
+                <div class="card-columns">
+                    {% if events %}
+                        {% for event in events %}
+                            <div class="card text-white text-center m-3">
+                                <p class="event_address"
+                                   style="display: none;"> {{ event.event_address }} </p>
+
+
+                                <img src="{{ event.image.url }}" class="img-fluid"
+                                     alt="{{ event.event_name }}">
+                                <a href="{% url 'event_page' event_id=event.id %}">
+                                    <div class="card-img-overlay text-white">
+                                        <h3 class="rounded card-title font-weight-bold align-middle d-inline-block pr-2 pl-2 m-2"
+                                            style="background-color: #fca903;">
+                                            {{ event.event_name }}</h3>
+                                        <div class="rounded d-inline-block pr-2 pl-2"
+                                             style="background-color: #fca903">
+                                            <small>{{ event.event_begin.date }}</small>
+                                        </div>
+                                    </div>
+                                </a>
+                                <div class="card-footer">
+                                    {% for tag in event.event_tags.all %}
+                                        <a href="{% url 'search_tags' tag_id=tag.id %}">
+                                            <span class="badge badge-pill badge-warning ght tag">{{ tag.tag }}</span></a>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+            {% endif %}
+        </div>
+        <!-- Clearfix -->
+        <div class="clearfix"></div>
+    </div>
+    <!-- Resume Ends -->
+
+    <script src="{% static 'js/profile.js' %}"></script>
+
+    <!--    <h1>{{ user.first_name|title }}</h1>-->
+    <!--    <h4>{{ user.username }}</h4>-->
+    <!--    <br>-->
+    <!--    <h2>{{ user.username }}`s events</h2>-->
+    <!--    <br>-->
+    <!--    {% if not user_events|length > 0 %}-->
+        <!--        <h3>Nothing here yet ;(</h3>-->
+        <!--    {% else %}-->
+        <!--        <div class="row">-->
+        <!--            {% for event in user_events %}-->
+            <!--                <div class="col-mr-3 center">-->
+            <!--                    <div class="card text-light m-3"-->
+            <!--                         style="background-color: #252122; width: 18rem; border: solid 3px #fca903">-->
+            <!--                        <img src="https://media.informpskov.ru/content/2019/07/3GNlZ1563546714.png"-->
+            <!--                             class="card-img-top"-->
+            <!--                             alt="{{ event.event_author.username }}`s event">-->
+            <!--                        <div class="card-body">-->
+            <!--                            <h5 class="card-title">{{ event.event_name }}</h5>-->
+            <!--                            <p class="card-text">-->
+            <!--                                {% if event.event_date == event.event_date_end %}-->
+                <!--                                    <span class="text-secondary">{{ event.event_date|date:"d.m.Y" }}-->
+                <!--                                        ({{ event.event_time|time:'H:i' }} — {{ event.event_time_end|time:'H:i' }})</span>-->
+                <!--                                {% else %}-->
+                <!--                                    <span class="text-secondary">{{ event.event_date|date:"d.m.Y" }} — {{ event.event_date_end|date:"d.m.Y" }}</span>-->
+                <!--                                {% endif %}-->
+            <!--                            </p>-->
+            <!--                            <p class="card-text">-->
+            <!--                                <span class="text-secondary">{{ event.event_author.first_name }}</span>-->
+            <!--                            </p>-->
+            <!--                            <div class="container">-->
+            <!--                                <div class="row">-->
+            <!--                                    <div class="col-md-6"><a href="{% url 'event_page' event_id=event.id %}"-->
+            <!--                                                             class="btn btn-outline-warning">More info</a>-->
+            <!--                                    </div>-->
+            <!--                                    <div class="col-md-6">-->
+            <!--                                        {% if not event.event_people_needed == -1 %}-->
+                <!--                                            <div class="row">-->
+                <!--                                                <div class="col-md-6">-->
+                <!--                                                    <img src="{% static 'assets/svg/people.png' %}"-->
+                <!--                                                         height="30px">-->
+                <!--                                                </div>-->
+                <!--                                                <div class="col-md-6">-->
+                <!--                                                    <p style="margin-top:3px">{{ event.event_people_needed }}</p>-->
+                <!--                                                </div>-->
+                <!--                                            </div>-->
+                <!--                                        {% endif %}-->
+            <!--                                    </div>-->
+            <!--                                </div>-->
+            <!--                            </div>-->
+            <!--                        </div>-->
+            <!--                    </div>-->
+            <!--                </div>-->
+            <!--            {% endfor %}-->
+        <!--        </div>-->
+        <!--    {% endif %}-->
+    </div>
+{% endblock content %}
+

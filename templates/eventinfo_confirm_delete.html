@@ -1,0 +1,16 @@
+eventinfo_confirm_delete.html
+
+{% extends 'base.html' %}
+{% block content %}
+    {% load static %}
+
+<div class="card" style="width: 18rem;">
+  <div class="card-body">
+    <form method="post">{% csrf_token %}
+    <p>Are you sure you want to delete "{{ object }}"?</p>
+    <input type="submit" value="Confirm">
+    </form>
+  </div>
+</div>
+
+{% endblock content %}

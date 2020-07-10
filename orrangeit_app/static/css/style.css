@@ -1,0 +1,503 @@
+/*@import url('https://fonts.googleapis.com/css?family=Sen&display=swap');*/
+@import url('https://fonts.googleapis.com/css2?family=Rubik:wght@300&display=swap');
+
+body, html {
+    font-family: 'Rubik', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f5f8fb;
+    color: black;
+    padding-top: 30px;
+    height: 100%;
+}
+
+#chat-log {
+    background-color: #252122;
+}
+
+#main {
+    min-height: 90%;
+    height: auto;
+    margin-top: 20px;
+}
+
+.content {
+    margin-top: 3%;
+}
+
+.font_size_large {
+    font-size: 40px;
+    color: white;
+}
+
+.center {
+    margin: auto;
+    text-align: center;
+}
+
+.new-nav {
+    background-color: white;
+    color: black;
+    position: fixed;
+    width: 100%;
+}
+
+a {
+    color: black;
+    text-decoration: none !important;
+}
+
+footer {
+    background-color: #fca903;
+    color: white;
+}
+
+#radius_slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    background: #fca903;
+    outline: none;
+    -webkit-transition: .2s;
+    transition: opacity .2s;
+    margin: -14px;
+}
+
+#radius_slider::-ms-thumb {
+    margin: 0;
+}
+
+.radiusValue {
+    color: #fca903
+}
+
+.btm {
+    display: inline-block;
+}
+
+.fa {
+    padding: 20px;
+    font-size: 30px;
+    width: 30px;
+    text-align: center;
+    text-decoration: none;
+    border-radius: 50%;
+}
+
+.social {
+    margin-left: auto;
+    margin-right: auto;
+    width: 10em
+}
+
+.left {
+    margin-left: auto;
+    margin-right: 100%;
+}
+
+#map {
+    margin: 0;
+    height: 1920px;
+    width: 1080px;
+}
+
+.bg-orange {
+    background-color: #fca903;
+}
+
+.form-control.mce-panel {
+    background-color: #3a3434;
+}
+
+.gradient-img {
+    width: 100%;
+    height: 100%;
+    background-image: linear-gradient(to right, rgba(255, 0, 0, 0), #fca903);
+}
+
+.card-img {
+    width: 100%;
+    border: 2px solid #fca903;
+}
+
+@media (min-width: 360px){
+    .card-columns{
+        column-count: 1;
+    }
+}
+
+@media (min-width: 576px){
+    .card-columns{
+        column-count: 2;
+    }
+}
+
+@media (min-width: 992px){
+    .card-columns{
+        column-count: 4;
+    }
+}
+
+@media (min-width: 768px){
+    .card-columns{
+        column-count: 3;
+    }
+}
+
+@media (min-width: 1200px){
+    .card-columns{
+        column-count: 3;
+    }
+}
+
+.side-info {
+    margin-top: 40px;
+}
+
+.slide-card {
+    padding: 20px;
+}
+
+.margin-top {
+    margin-top: 30px;
+}
+
+.slide_changer {
+    border-radius: 20px;
+    background-color: #fca903;
+    width: 125px;
+    margin: auto;
+}
+
+/* CSS rules are kept repetitive so that you can get CSS rules for each button easily :) */
+
+* {
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+}
+
+*:focus {
+    outline: none;
+}
+
+.toggle-button-cover {
+    display: table-cell;
+    position: relative;
+    width: 200px;
+    height: 140px;
+    box-sizing: border-box;
+}
+
+.button-cover {
+    height: 100px;
+    margin: 20px;
+    background-color: #fff;
+    box-shadow: 0 10px 20px -8px #c5d6d6;
+    border-radius: 4px;
+}
+
+.button-cover:before {
+    counter-increment: button-counter;
+    content: counter(button-counter);
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    color: #d7e3e3;
+    font-size: 12px;
+    line-height: 1;
+    padding: 5px;
+}
+
+.button-cover, .knobs, .layer {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+}
+
+.button {
+    position: relative;
+    top: 50%;
+    width: 74px;
+    height: 36px;
+    margin: -20px auto 0 auto;
+    overflow: hidden;
+}
+
+.button.r, .button.r .layer {
+    border-radius: 100px;
+}
+
+.button.b2 {
+    border-radius: 2px;
+}
+
+.checkbox {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    margin: 0;
+    opacity: 0;
+    cursor: pointer;
+    z-index: 3;
+}
+
+.knobs {
+    z-index: 2;
+}
+
+.layer {
+    width: 100%;
+    background-color: #ebf7fc;
+    transition: 0.3s ease all;
+    z-index: 1;
+}
+
+/* Button 4 */
+#button-4 .knobs:before, #button-4 .knobs:after {
+    position: absolute;
+    top: 4px;
+    left: 4px;
+    width: 25px;
+    height: 25px;
+    color: #fff;
+    font-size: 10px;
+    font-weight: bold;
+    text-align: center;
+    line-height: 1;
+    padding: 9px 4px;
+    background-color: #03A9F4;
+    border-radius: 50%;
+    transition: 0.3s cubic-bezier(0.18, 0.89, 0.35, 1.15) all;
+    background-image: url(../svg/orange_w.png);
+    background-size: contain;
+}
+
+#button-4 .knobs:before {
+    content: 'YES';
+}
+
+#button-4 .knobs:after {
+    content: 'NO';
+}
+
+#button-4 .knobs:after {
+    top: -28px;
+    right: 4px;
+    left: auto;
+    background-color: #F44336;
+}
+
+#button-4 .checkbox:checked + .knobs:before {
+    top: -28px;
+}
+
+#button-4 .checkbox:checked + .knobs:after {
+    top: 4px;
+}
+
+#button-4 .checkbox:checked ~ .layer {
+    background-color: #fcebeb;
+}
+
+
+.m-card {
+    border-radius: 18px;
+    background: white;
+    box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.2);
+    font-family: 'Rubik', sans-serif;
+    text-align: center;
+
+    transition: 0.4s ease;
+    cursor: pointer;
+    margin: 30px;
+}
+
+.m-card-image {
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+    background-size: cover;
+    width: 100%;
+    height: 200px;
+}
+
+.m-card-stats {
+    grid-area: stats;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 1fr;
+
+    border-bottom-left-radius: 15px;
+    border-bottom-right-radius: 15px;
+    background: #fca903;
+}
+
+.m-card-stats-sharp {
+    grid-area: stats;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 1fr;
+
+    background: #fca903;
+}
+
+.m-card-stats .m-stat {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+
+    color: white;
+    padding: 10px;
+}
+
+.m-card-stats .value {
+    font-size: 22px;
+    font-weight: 500;
+}
+
+.m-card-stats .m-border {
+    border-left: 1px solid rgb(187, 114, 19) !important;
+    border-right: 1px solid rgb(187, 114, 19) !important;
+}
+
+m-card-stats .value sup {
+    font-size: 12px;
+}
+
+.m-card-text {
+    grid-area: text;
+    margin: 25px;
+    height: 200px;
+    overflow: hidden;
+}
+
+.m-card-text .m-date {
+    color: #fca903;
+    font-size: 14px;
+}
+
+.m-card-text p {
+    color: grey;
+    font-size: 15px;
+    font-weight: 300;
+}
+
+.m-card-text h2 {
+    margin-top: 0px;
+    font-size: 28px;
+}
+
+.m-card:hover {
+    transform: scale(1.04);
+    box-shadow: 5px 5px 15px rgba(240, 150, 70, 0.6);
+}
+
+.m-card-margin {
+    margin-right: 0px;
+}
+
+.card-event-div-img {
+    overflow: hidden;
+    height: 500px;
+}
+
+.mcard {
+    background-color: white;
+    height: 100px;
+    padding: 20px;
+    border-radius: 20px;
+    min-width: 200px;
+    border: 1px solid #ff8733 !important;
+
+
+    transition: 0.5s;
+}
+.mcard-body {}
+.mcard-img {
+    background-color: red;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+}
+.m-30 {
+    margin-top: 30px;
+}
+
+.mcard:hover {
+    box-shadow: 0 0 10px rgba(250,200,80,0.5);
+}
+.avatar-img {
+    height: 30px;
+    width: 30px;
+    border-radius: 50%;
+}
+.avatar-profile {
+   height: 60px;
+    width: 60px;
+    border-radius: 50%;
+}
+.mr-30 {
+    margin-right: 10px;
+}
+.mt-30 {
+  margin-top: 30px;
+}
+.br {
+  border-radius: 20px !important;
+}
+.br-top {
+  border-top-right-radius: 20px;
+  border-top-left-radius: 20px;
+}
+.br-bot {
+  border-bottom-right-radius: 20px !important;
+  border-bottom-left-radius: 20px !important;
+}
+.text-form {
+  overflow: hidden;
+}
+.img-people {
+  width: 30px;
+  height: 30px;
+
+}
+.img-people-2 {
+  width: 45px;
+  height: 45px;
+
+}
+.div-people {
+  position: absolute;
+  right: 5%;
+  top: 5%;
+}
+.bg-gray {
+  background-color: rgba(0, 255, 53, 0.48);
+}
+.pa {
+  padding: 3px;
+}
+.dis-b {
+  display: inline-block;;
+}
+.f-30 {
+  font-size: 30px;
+}
+
+@media (max-width: 767px) {
+
+  .f-20 {
+    font-size: 20px;
+  }
+}
+.cardh {
+  transition: 0.5s;
+}
+.cardh:hover {
+  transform: scale(1.03);
+  box-shadow: 0 0 13px rgba(255, 151, 0, 0.66);
+}
